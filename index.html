@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BZ Boys Food</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <script src="app.js"></script>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar">
+
+    <div class="logo" onclick="showPage('home')">
+        BZ<span>Boys Food</span>
+    </div>
+
+    <div class="location">
+        📍 <span id="locationText">Phagwara</span>
+    </div>
+
+    <div class="nav-links">
+
+        <button onclick="showPage('home')">Home</button>
+
+        <button onclick="showPage('orders')">
+            📦 Orders
+        </button>
+
+        <button onclick="showPage('wallet')">
+            💰 Wallet
+        </button>
+
+        <button onclick="showPage('bookings')">
+            🍽️ Bookings
+        </button>
+
+        <button onclick="showCart()">
+            🛒 Cart
+            <span id="cartCount">0</span>
+        </button>
+
+        <button onclick="showPage('profile')" class="profile-btn">
+            <span id="profileInitial">G</span>
+        </button>
+
+    </div>
+
+</nav>
+
+
+<!-- ================= MAIN ================= -->
+
+<main>
+
+
+<!-- ================= HOME ================= -->
+
+<section id="home" class="page active">
+
+    <div class="hero">
+
+        <div class="hero-content">
+
+            <p class="hero-small">
+                BZ BOYS FOOD
+            </p>
+
+            <h1>
+                Food that makes
+                <span>you happy.</span>
+            </h1>
+
+            <p>
+                Discover restaurants, order your favourites
+                and enjoy amazing food.
+            </p>
+
+            <div class="search-box">
+
+                <span>🔍</span>
+
+                <input
+                    id="searchInput"
+                    type="text"
+                    placeholder="Search food or restaurants..."
+                    oninput="searchFood()"
+                >
+
+                <button onclick="searchFood()">
+                    Search
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- CATEGORIES -->
+
+    <div class="container">
+
+        <div class="section-heading">
+            <h2>Explore categories</h2>
+            <p>What are you craving today?</p>
+        </div>
+
+        <div class="categories">
+
+            <div onclick="filterCategory('Pizza')" class="category">
+                <div>🍕</div>
+                <p>Pizza</p>
+            </div>
+
+            <div onclick="filterCategory('Burger')" class="category">
+                <div>🍔</div>
+                <p>Burger</p>
+            </div>
+
+            <div onclick="filterCategory('Indian')" class="category">
+                <div>🍛</div>
+                <p>Indian</p>
+            </div>
+
+            <div onclick="filterCategory('Biryani')" class="category">
+                <div>🍚</div>
+                <p>Biryani</p>
+            </div>
+
+            <div onclick="filterCategory('Chinese')" class="category">
+                <div>🍜</div>
+                <p>Chinese</p>
+            </div>
+
+            <div onclick="filterCategory('Dessert')" class="category">
+                <div>🍰</div>
+                <p>Dessert</p>
+            </div>
+
+        </div>
+
+
+        <!-- RESTAURANTS -->
+
+        <div class="section-heading">
+
+            <h2>Popular restaurants</h2>
+
+            <p>
+                Top places around you
+            </p>
+
+        </div>
+
+        <div id="restaurantGrid" class="restaurant-grid"></div>
+
+
+        <!-- OFFERS -->
+
+        <div class="offer-banner">
+
+            <div>
+
+                <p>EXCLUSIVE OFFER</p>
+
+                <h2>
+                    Get ₹100 OFF
+                </h2>
+
+                <span>
+                    Use code BZ100 on your first order
+                </span>
+
+            </div>
+
+            <button onclick="applyCoupon('BZ100')">
+                Apply offer
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= RESTAURANT PAGE ================= -->
+
+<section id="restaurantPage" class="page">
+
+    <div class="container">
+
+        <button class="back-btn"
+                onclick="showPage('home')">
+            ← Back
+        </button>
+
+        <div id="restaurantDetails"></div>
+
+        <h2 class="menu-title">
+            Menu
+        </h2>
+
+        <div id="menuGrid"
+             class="menu-grid">
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CART ================= -->
+
+<section id="cartPage" class="page">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <h2>Your Cart 🛒</h2>
+
+            <p>
+                Review your order before checkout
+            </p>
+
+        </div>
+
+        <div id="cartContent"></div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CHECKOUT ================= -->
+
+<section id="checkoutPage" class="page">
+
+    <div class="container checkout-container">
+
+        <button class="back-btn"
+                onclick="showCart()">
+            ← Back to cart
+        </button>
+
+        <h2>Checkout</h2>
+
+        <div class="checkout-grid">
+
+            <div class="checkout-card">
+
+                <h3>Delivery address</h3>
+
+                <div id="checkoutAddress"></div>
+
+                <button class="secondary-btn"
+                        onclick="addAddress()">
+                    + Add address
+                </button>
+
+            </div>
+
+
+            <div class="checkout-card">
+
+                <h3>Payment method</h3>
+
+                <label class="payment-option">
+
+                    <input
+                        type="radio"
+                        name="payment"
+                        value="wallet"
+                        checked
+                    >
+
+                    💰 BZ Wallet
+
+                </label>
+
+                <label class="payment-option">
+
+                    <input
+                        type="radio"
+                        name="payment"
+                        value="cod"
+                    >
+
+                    💵 Cash on Delivery
+
+                </label>
+
+            </div>
+
+
+            <div class="checkout-card">
+
+                <h3>Order summary</h3>
+
+                <div id="checkoutSummary"></div>
+
+                <button class="primary-btn"
+                        onclick="placeOrder()">
+                    Place Order
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= ORDERS ================= -->
+
+<section id="orders" class="page">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <h2>My Orders 📦</h2>
+
+            <p>
+                Track your previous orders
+            </p>
+
+        </div>
+
+        <div id="ordersContainer"></div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= PROFILE ================= -->
+
+<section id="profile" class="page">
+
+    <div class="container profile-container">
+
+        <div class="profile-header">
+
+            <div class="big-avatar"
+                 id="bigAvatar">
+                G
+            </div>
+
+            <div>
+
+                <h1 id="profileName">
+                    Guest User
+                </h1>
+
+                <p id="profileEmail">
+                    guest@email.com
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="profile-grid">
+
+            <div class="profile-card">
+
+                <h3>👤 Personal information</h3>
+
+                <input
+                    id="nameInput"
+                    placeholder="Your name"
+                >
+
+                <input
+                    id="emailInput"
+                    placeholder="Email"
+                >
+
+                <input
+                    id="phoneInput"
+                    placeholder="Phone number"
+                >
+
+                <button class="primary-btn"
+                        onclick="saveProfile()">
+                    Save profile
+                </button>
+
+            </div>
+
+
+            <div class="profile-card">
+
+                <h3>📍 My addresses</h3>
+
+                <div id="addressList"></div>
+
+                <button class="secondary-btn"
+                        onclick="addAddress()">
+                    + Add new address
+                </button>
+
+            </div>
+
+
+            <div class="profile-card clickable"
+                 onclick="showPage('orders')">
+
+                <h3>📦 My Orders</h3>
+
+                <p>
+                    View and track your orders
+                </p>
+
+            </div>
+
+
+            <div class="profile-card clickable"
+                 onclick="showPage('wallet')">
+
+                <h3>💰 My Wallet</h3>
+
+                <p>
+                    Check balance and transactions
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= WALLET ================= -->
+
+<section id="wallet" class="page">
+
+    <div class="container">
+
+        <div class="wallet-big">
+
+            <p>AVAILABLE BALANCE</p>
+
+            <h1>
+                ₹<span id="walletBalance">850</span>
+            </h1>
+
+            <button onclick="addMoney()">
+                + Add Money
+            </button>
+
+        </div>
+
+
+        <div class="section-heading">
+
+            <h2>Transactions</h2>
+
+        </div>
+
+        <div id="transactions"></div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= BOOKINGS ================= -->
+
+<section id="bookings" class="page">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <h2>Table Booking 🍽️</h2>
+
+            <p>
+                Reserve a table at your favourite restaurant
+            </p>
+
+        </div>
+
+
+        <div class="booking-form">
+
+            <label>
+                Restaurant
+            </label>
+
+            <select id="bookingRestaurant">
+
+                <option>
+                    Burger Singh
+                </option>
+
+                <option>
+                    Pizza Paradise
+                </option>
+
+                <option>
+                    Punjabi Rasoi
+                </option>
+
+                <option>
+                    Dragon Bowl
+                </option>
+
+            </select>
+
+
+            <label>
+                Date
+            </label>
+
+            <input
+                id="bookingDate"
+                type="date"
+            >
+
+
+            <label>
+                Time
+            </label>
+
+            <input
+                id="bookingTime"
+                type="time"
+            >
+
+
+            <label>
+                Number of people
+            </label>
+
+            <input
+                id="bookingPeople"
+                type="number"
+                min="1"
+                value="2"
+            >
+
+
+            <button class="primary-btn"
+                    onclick="createBooking()">
+
+                Book Table
+
+            </button>
+
+        </div>
+
+
+        <h2 class="menu-title">
+            My Bookings
+        </h2>
+
+        <div id="bookingList"></div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FAVORITES ================= -->
+
+<section id="favorites" class="page">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <h2>❤️ Favorites</h2>
+
+        </div>
+
+        <div id="favoriteGrid"
+             class="restaurant-grid">
+        </div>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+<!-- ================= AI HELPER ================= -->
+
+<button class="ai-floating"
+        onclick="toggleAI()">
+
+    🤖
+
+</button>
+
+
+<div id="aiBox" class="ai-box">
+
+    <div class="ai-header">
+
+        <div>
+            🤖 <strong>BZ AI</strong>
+        </div>
+
+        <button onclick="toggleAI()">
+            ×
+        </button>
+
+    </div>
+
+
+    <div id="aiMessages"
+         class="ai-messages">
+
+        <div class="ai-msg bot">
+            Hey! 👋 I'm BZ AI.
+            <br><br>
+            Tell me what you're craving and
+            I'll recommend something.
+        </div>
+
+    </div>
+
+
+    <div class="ai-input">
+
+        <input
+            id="aiInput"
+            placeholder="Ask me anything..."
+            onkeydown="aiEnter(event)"
+        >
+
+        <button onclick="sendAI()">
+            ➤
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ================= TOAST ================= -->
+
+<div id="toast"
+     class="toast">
+</div>
+
+
+<script src="app.js"></script>
+
+</body>
+</html>
